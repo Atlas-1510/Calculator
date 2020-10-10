@@ -2,34 +2,68 @@
     display: inline-grid;
     grid-template-rows: repeat(6, 1fr);
     grid-template-columns: repeat(4, 1fr);
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-.item {
+.button {
     display: flex;
     border: solid;
     border-color: black;
     border-width: 1px;
     justify-content: center;
     align-items: center;
+    color: rgb(231, 231, 231);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: xx-large;
+
 }
 
 .number {
-    background-color: lightslategray;
+    background-color: rgb(95,95,99);
 }
 
 .operator {
-    background-color: orange;
+    background-color: rgb(242,162,59);
 }
 
+.inputControl {
+    background-color: rgb(64,66,72);
+}
 
+.numberHighlight {
+    background-color: rgb(159,159,161);
+}
 
+.inputHighlight {
+    background-color: rgb(97,100,105);
+}
+
+.operatorHighlight {
+    background-color: rgb(192,128,45);
+}
 
 #displayArea {
-    background-color: grey;
+    background-color: rgb(47,49,57);
     grid-column-start: 1;
     grid-column-end: 5;
     grid-row-start: 1;
     grid-row-end: 2;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#displayContent {
+    padding-right: 2%;
+    display: flex;
+    border: solid;
+    border-color: black;
+    border-width: 1px;
+    justify-content: center;
+    align-items: center;
+    color: rgb(231, 231, 231);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: xxx-large;
 }
 
 #decimal {
@@ -88,3 +122,4 @@
     grid-column: 3;
     grid-row: 3 / 4;
 }
+
