@@ -1,0 +1,90 @@
+#calculator {
+    display: inline-grid;
+    grid-template-rows: repeat(6, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.item {
+    display: flex;
+    border: solid;
+    border-color: black;
+    border-width: 1px;
+    justify-content: center;
+    align-items: center;
+}
+
+.number {
+    background-color: lightslategray;
+}
+
+.operator {
+    background-color: orange;
+}
+
+
+
+
+#displayArea {
+    background-color: grey;
+    grid-column-start: 1;
+    grid-column-end: 5;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+#decimal {
+    grid-column: 3;
+    grid-row: 6 / 7;
+}
+
+
+#zero {
+    grid-column: 1 / span 2;
+    grid-row: 6 / 7;
+}
+
+#one {
+    grid-column: 1;
+    grid-row: 5 / 6;
+}
+
+#two {
+    grid-column: 2;
+    grid-row: 5 / 6;
+}
+
+#three {
+    grid-column: 3;
+    grid-row: 5 / 6;
+}
+
+
+#four {
+    grid-column: 1;
+    grid-row: 4 / 5;
+}
+
+#five {
+    grid-column: 2;
+    grid-row: 4 / 5;
+}
+
+#six {
+    grid-column: 3;
+    grid-row: 4 / 5;
+}
+
+#seven {
+    grid-column: 1;
+    grid-row: 3 / 4;
+}
+
+#eight {
+    grid-column: 2;
+    grid-row: 3 / 4;
+}
+
+#nine {
+    grid-column: 3;
+    grid-row: 3 / 4;
+}
