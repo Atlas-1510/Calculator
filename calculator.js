@@ -12,8 +12,8 @@ buttons.forEach(button => button.addEventListener('mousedown', (button) => {
         button.path[0].classList.toggle("numberHighlight");
     } else if (button.path[0].classList.contains("inputControl")) {
         button.path[0].classList.toggle("inputHighlight");
-    } else if (button.path[0].classList.contains("operator")) {
-        button.path[0].classList.toggle("operatorHighlight");
+    } else if (button.path[0].classList.contains("orangeSquare")) {
+        button.path[0].classList.toggle("orangeSquareHighlight");
     }
 }));
 buttons.forEach(button => button.addEventListener('mouseup', (button) => {
@@ -21,8 +21,8 @@ buttons.forEach(button => button.addEventListener('mouseup', (button) => {
         button.path[0].classList.toggle("numberHighlight");
     } else if (button.path[0].classList.contains("inputControl")) {
         button.path[0].classList.toggle("inputHighlight");
-    } else if (button.path[0].classList.contains("operator")) {
-        button.path[0].classList.toggle("operatorHighlight");
+    } else if (button.path[0].classList.contains("orangeSquare")) {
+        button.path[0].classList.toggle("orangeSquareHighlight");
     }
 }));
 
@@ -44,9 +44,9 @@ function divide(first, second) {
     return first / second;
 }
 
-function operate(operation, first, second) {
-    return operation(first, second);
-}
+// function operate(operation, first, second) {
+//     return operation(first, second);
+// }
 
 // ***** FUNCTIONALITY *****
 
@@ -87,29 +87,35 @@ buttons.forEach((button) => {
         }
         // If the button clicked was an operator
         if (buttonClass.contains("operator")) {
-            // If an alpha number has been entered, and now moving to beta number...
-            if (alphaToggle && alphaString) {
-                alphaNumber = Number(alphaString);
-                console.log(`AlphaNumber: ${alphaNumber}`);
-                operator = event.target.id;
+            operator = event.target.id;
+            alphaNumber = Number(alphaString);
+            betaNumber = Number(betaString);
+            // If everything required for calculation is provided, run calc
+            if (alphaNumber && betaNumber && operator) {
+                // ADD RESULT
+                displayValue.textContent = result;
+                alphaNumber = betaNumber;
+                betaNumber = undefined;
+            }
+            // If only alpha available, unlock beta and enable user input
+            if (alphaNumber && !betaNumber) {
                 alphaToggle = !alphaToggle;
                 betaToggle = !betaToggle;
             }
-            // If a beta number has been entered
-            // If the operator input was "=", and all requirements for a result are provided
-            if (buttonClass.contains("equality") && alphaNumber && betaNumber && operator) {
-
-            }
-
-
-            // If an alpha number and beta number have been entered
-            if (betaToggle && betaString) {
-                betaNumber = Number(betaString);
-                console.log(`BetaNumber: ${betaNumber}`);
-
+        }
+        // If the button clicked was "="
+        if (buttonClass.contains("equality")) {
+            alphaNumber = Number(alphaString);
+            betaNumber = Number(betaString);
+            // If everything required for calculation is provided, run calc
+            if (alphaNumber && betaNumber && operator) {
+                let numberInputs = [alphaNumber, betaNumber];
+                let result = window[operator].apply(null, numberInputs);
+                displayValue.textContent = result;
+                alphaNumber = result;
+                alphaToggle = !alphaToggle;
+                betaToggle = !betaToggle;
             }
         }
     })
 });
-
-
