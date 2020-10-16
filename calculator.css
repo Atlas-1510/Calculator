@@ -19,7 +19,7 @@
 
 }
 
-.number {
+.numberTile {
     background-color: rgb(95,95,99);
 }
 
@@ -66,6 +66,15 @@
     font-size: xxx-large;
 }
 
+#backspace {
+    grid-column: 1;
+    grid-row: 6 /7;
+}
+
+#backspaceIcon {
+    font-size: xx-large;
+}
+
 #decimal {
     grid-column: 3;
     grid-row: 6 / 7;
@@ -73,7 +82,7 @@
 
 
 #zero {
-    grid-column: 1 / span 2;
+    grid-column: 2 / span 1;
     grid-row: 6 / 7;
 }
 

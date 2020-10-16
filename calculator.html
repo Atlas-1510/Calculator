@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
     <link rel="stylesheet" href="calculator.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
@@ -16,22 +17,25 @@
         <div id="clearButton" class="inputControl button">AC</div>
         <div id="negativeToggle" class="inputControl button">+/-</div>
         <div id="percentageToggle" class="inputControl button">%</div>
-        <div id="divide" class="orangeSquare operator button">/</div>
-        <div id="multiply" class="orangeSquare operator button">*</div>
-        <div id="subtract" class="orangeSquare operator button">-</div>
-        <div id="add" class="orangeSquare operator button">+</div>
-        <div id="equality" class="orangeSquare equality button">=</div>
-        <div id="one" class="number button">1</div>
-        <div id="two" class="number button">2</div>
-        <div id="three" class="number button">3</div>
-        <div id="four" class="number button">4</div>
-        <div id="five" class="number button">5</div>
-        <div id="six" class="number button">6</div>
-        <div id="seven" class="number button">7</div>
-        <div id="eight" class="number button">8</div>
-        <div id="nine" class="number button">9</div>
-        <div id="zero" class="number button">0</div>
-        <div id="decimal" class="number button">.</div>
+        <div id="divide" data-key="/" class="orangeSquare operator button key">/</div>
+        <div id="multiply" data-key="*" class="orangeSquare operator button key">*</div>
+        <div id="subtract" data-key="-" class="orangeSquare operator button key">-</div>
+        <div id="add" data-key="+" class="orangeSquare operator button key">+</div>
+        <div id="equality" data-key="Enter" class="orangeSquare equality button key">=</div>
+        <div id="one" data-key="1" class="number numberTile button key">1</div>
+        <div id="two" data-key="2" class="number numberTile button key">2</div>
+        <div id="three" data-key="3" class="number numberTile button key">3</div>
+        <div id="four" data-key="4" class="number numberTile button key">4</div>
+        <div id="five" data-key="5" class="number numberTile button key">5</div>
+        <div id="six" data-key="6" class="number numberTile button key">6</div>
+        <div id="seven" data-key="7" class="number numberTile button key">7</div>
+        <div id="eight" data-key="8" class="number numberTile button key">8</div>
+        <div id="nine" data-key="9" class="number numberTile button key">9</div>
+        <div id="zero" data-key="0" class="number numberTile button key">0</div>
+        <div id="decimal" data-key="." class="number numberTile button key">.</div>
+        <div id="backspace" class="backspace numberTile button">
+            <div id="backspaceIcon" data-key="Backspace" class="backspace material-icons key">&#xe14a;</div>
+        </div>
     </div>
     <div id="alpha">Alpha Toggle</div>
     <div id="beta">Beta Toggle</div>

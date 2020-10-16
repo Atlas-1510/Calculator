@@ -7,7 +7,7 @@ calculator.style.setProperty("height", calculatorSize + "px");
 
 // Button highlight effect when clicked
 const buttons = Array.from(document.querySelectorAll('.button'));
-buttons.forEach(button => button.addEventListener('mousedown', (button) => {
+buttons.forEach(button => button.addEventListener("mousedown", (button) => {
     if (button.path[0].classList.contains("number")) {
         button.path[0].classList.toggle("numberHighlight");
     } else if (button.path[0].classList.contains("inputControl")) {
@@ -16,7 +16,7 @@ buttons.forEach(button => button.addEventListener('mousedown', (button) => {
         button.path[0].classList.toggle("orangeSquareHighlight");
     }
 }));
-buttons.forEach(button => button.addEventListener('mouseup', (button) => {
+buttons.forEach(button => button.addEventListener("mouseup", (button) => {
     if (button.path[0].classList.contains("number")) {
         button.path[0].classList.toggle("numberHighlight");
     } else if (button.path[0].classList.contains("inputControl")) {
@@ -25,6 +25,14 @@ buttons.forEach(button => button.addEventListener('mouseup', (button) => {
         button.path[0].classList.toggle("orangeSquareHighlight");
     }
 }));
+
+// Keyboard input
+window.addEventListener('keyup', function (e) {
+    if (e.key == "Shift") return;
+    const input = document.querySelector(`div[data-key="${e.key}"]`);
+    if (!input) return;
+    input.click();
+})
 
 // ***** MATH FUNCTIONS *****
 
@@ -111,9 +119,12 @@ buttons.forEach((button) => {
 function setMode(input) {
     let newButton = input[0];
     let value = input[1];
-    // Before evaluating, check if input is a decimal. If decimal already exists in string, do nothing.
+    console.log(input);
     if (value == "." && displayValue.textContent.includes(".")) {
         return;
+    }
+    if (newButton == "backspace") {
+        backspace();
     }
     // If prior button is a number
     if (priorButton == "number") {
@@ -204,6 +215,17 @@ function setMode(input) {
     }
 }
 
+function backspace() {
+    let str = displayValue.textContent;
+    str = str.substring(0, str.length - 1);
+    displayValue.textContent = str;
+    if (betaToggle) {
+        betaNumber = Number(str);
+    } else if (alphaToggle) {
+        alphaNumber = Number(str);
+    }
+}
+
 // getInput takes a mouse click, and returns an array with [buttonType, buttonValue]
 function getInput(event) {
     let type = "";
@@ -221,6 +243,9 @@ function getInput(event) {
         value = event.target.id;
     } else if (buttonClass.contains("inputControl")) {
         type = "inputControl";
+        value = event.target.id;
+    } else if (buttonClass.contains("backspace")) {
+        type = "backspace";
         value = event.target.id;
     }
     let returnArray = [type, value];
