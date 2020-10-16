@@ -44,10 +44,6 @@ function divide(first, second) {
     return first / second;
 }
 
-// function operate(operation, first, second) {
-//     return operation(first, second);
-// }
-
 // ***** FUNCTIONALITY *****
 
 // alpha and beta are the two slots to hold number input from user,
@@ -69,12 +65,38 @@ let betaToggle = false;
 // Default is number, because that is the first thing you enter in a calculator
 let priorButton = "number";
 
+// This variable holds the result of a calculation
+let result = 0;
+
+let alpha = document.getElementById("alpha");
+let beta = document.getElementById("beta");
+
+let alphavalue = document.getElementById("alphavalue");
+let betavalue = document.getElementById("betavalue");
+let operatorDiv = document.getElementById("operator");
+
+
 const displayValue = document.getElementById("displayContent");
 buttons.forEach((button) => {
     button.addEventListener('click', (buttonPress) => {
+        if (alphaToggle) {
+            alpha.style.setProperty("background-color", "lightgreen");
+        }
+        if (betaToggle) {
+            beta.style.setProperty("background-color", "lightgreen");
+        }
+        if (!alphaToggle) {
+            alpha.style.setProperty("background-color", "white");
+        }
+        if (!betaToggle) {
+            beta.style.setProperty("background-color", "white");
+        }
+
         let userInput = getInput(buttonPress);
         setMode(userInput);
-        updateDisplay();
+        alphavalue.innerHTML = alphaNumber;
+        betavalue.innerHTML = betaNumber;
+        operatorDiv.innerHTML = operator;
     })
 });
 
@@ -84,51 +106,104 @@ buttons.forEach((button) => {
 function setMode(input) {
     let newButton = input[0];
     let value = input[1];
+    console.log(input);
     // If prior button is a number
     if (priorButton == "number") {
         if (newButton == "number") {
-            console.log("number following number");
+            // console.log("number following number");
             priorButton = "number";
             numberNumber(value);
         } else if (newButton == "operator") {
-            console.log("operator following number");
+            // console.log("operator following number");
             priorButton = "operator";
             numberOperator(value);
         } else if (newButton == "equality") {
-            console.log("equality following number");
-            numberEquality(value);
+            // console.log("equality following number");
+            priorButton = "equality";
+            numberEquality();
         }
     }
     // If prior button is an operator
-    if (priorButton == "operator") {
+    else if (priorButton == "operator") {
         if (newButton == "number") {
-            console.log("number following operator");
+            // console.log("number following operator");
             priorButton = "number";
             operatorNumber(value);
         } else if (newButton == "operator") {
-            console.log("operator following operator");
+            // console.log("operator following operator");
             priorButton = "operator";
             operatorOperator(value);
         } else if (newButton == "equality") {
-            console.log("equality following operator");
-            operatorEquality(value);
+            // console.log("equality following operator");
+            priorButton = "equality";
+            operatorEquality();
         }
     }
     // If prior button is an equality
-    if (priorButton == "equality") {
+    else if (priorButton == "equality") {
         if (newButton == "number") {
-            console.log("number following equality");
+            // console.log("number following equality");
             priorButton = "number";
             equalityNumber(value);
         } else if (newButton == "operator") {
-            console.log("operator following equality");
+            // console.log("operator following equality");
             priorButton = "operator";
             equalityOperator(value);
         } else if (newButton == "equality") {
-            console.log("equality following equality");
-            equalityEquality(value);
+            // console.log("equality following equality");
+            priorButton = "equality";
+            equalityEquality();
         }
     }
+    // if NEW button is an input control
+    if (newButton == "inputControl") {
+        if (value == "clearButton") {
+            alphaNumber = 0;
+            alphaString = "";
+            betaNumber = 0;
+            betaString = "";
+            result = 0;
+            priorButton = "number";
+            alphaToggle = true;
+            betaToggle = false;
+            displayValue.textContent = 0;
+        }
+        if (value == "negativeToggle") {
+            let number = Number(displayValue.textContent) * -1;
+            if (alphaToggle) {
+                alphaNumber = number;
+                alphaString = number.toString();
+            }
+            if (betaToggle) {
+                betaNumber = number;
+                betaString = number.toString();
+            }
+            updateDisplayInput();
+        }
+        if (value == "percentageToggle") {
+            let number = Number(displayValue.textContent) / 100;
+            if (alphaToggle) {
+                alphaNumber = number;
+                alphaString = number.toString();
+            }
+            if (betaToggle) {
+                betaNumber = number;
+                betaString = number.toString();
+            }
+            updateDisplayInput();
+        }
+    }
+}
+
+// Updates display with user input
+function updateDisplayInput() {
+    if (alphaToggle) displayValue.textContent = alphaString;
+    else if (betaToggle) displayValue.textContent = betaString;
+}
+
+// Updates display with calculation output
+function updateDisplayOutput() {
+    displayValue.textContent = result;
 }
 
 // ****** PRIOR = NUMBER ******
@@ -136,73 +211,95 @@ function setMode(input) {
 // Number following number
 function numberNumber(input) {
     if (alphaToggle) {
-        console.log("Updating alpha slot");
         alphaString += input;
-
+        alphaNumber = Number(alphaString);
     }
     else if (betaToggle) {
-        console.log("Updating beta slot");
         betaString += input;
+        betaNumber = Number(betaString);
     }
+    updateDisplayInput();
 }
-
-// Takes input from setMode, updates display div for user
-// NEED TO INCORPORATE RESULTS HERE AS WELL
-function updateDisplay() {
-    if (alphaToggle) displayValue.textContent = alphaString;
-    else if (betaToggle) displayValue.textContent = betaString;
-}
-
 
 // Operator following number
 function numberOperator(input) {
-
+    if (alphaToggle) {
+        operator = input;
+        alphaToggle = false;
+        betaToggle = true;
+    }
+    else if (betaToggle) {
+        numberEquality();
+        betaString = "";
+        betaNumber = undefined;
+        operator = input;
+    }
 }
 
 // Equality following number
-function numberEquality(input) {
-
+function numberEquality() {
+    if (alphaNumber && betaNumber && operator) {
+        let numberInputs = [alphaNumber, betaNumber];
+        result = window[operator].apply(null, numberInputs);
+        updateDisplayOutput();
+        alphaString = result.toString();
+        alphaNumber = Number(alphaString);
+        alphaToggle = false;
+    }
 }
 
 // ****** PRIOR = OPERATOR ******
 
 // Number following operator
 function operatorNumber(input) {
-
+    if (betaToggle) {
+        betaString += input;
+        betaNumber = Number(betaString);
+        updateDisplayInput();
+    }
 }
 
 // Operator following operator
 function operatorOperator(input) {
-
+    updateDisplayOutput();
+    operator = input;
 }
 
 // Equality following operator
-function operatorEquality(input) {
-
+function operatorEquality() {
+    let numberInputs = [result, result];
+    result = window[operator].apply(null, numberInputs);
+    updateDisplayOutput();
 }
 
 // ****** PRIOR = EQUALITY ******
 
 // Number following equality
 function equalityNumber(input) {
-
+    alphaString = input;
+    alphaNumber = Number(alphaString);
+    alphaToggle = !alphaToggle;
+    betaToggle = !betaToggle;
+    updateDisplayInput();
 }
 
 // Operator following equality
 function equalityOperator(input) {
-
+    alphaString = result;
+    alphaNumber = Number(alphaString);
+    betaString = "";
+    operator = input;
+    alphaToggle = false;
+    betaToggle = true;
 }
 
 // Equality following equality
-function equalityEquality(input) {
-
+function equalityEquality() {
+    let numberInputs = [result, betaNumber];
+    result = window[operator].apply(null, numberInputs);
+    console.log(result);
+    updateDisplayOutput();
 }
-
-
-
-
-
-
 
 // getInput takes a mouse click, and returns an array with [buttonType, buttonValue]
 function getInput(event) {
@@ -226,56 +323,3 @@ function getInput(event) {
     let returnArray = [type, value];
     return returnArray;
 }
-
-
-
-
-
-//     button.addEventListener('click', (event) => {
-//         // console.log(event);
-//         let buttonClass = event.target.classList;
-//         // If the button clicked was a number
-//         if (buttonClass.contains("number")) {
-//             let buttonValueString = event.path[0].textContent;
-//             // If alpha is active
-//             if (alphaToggle) {
-//                 console.log("alpha is active");
-//                 alphaString += buttonValueString;
-//                 displayValue.textContent = alphaString;
-//             }
-//             // If beta is active
-//             if (betaToggle) {
-//                 betaString += buttonValueString;
-//                 console.log(buttonValueString);
-//                 displayValue.textContent = betaString;
-//             }
-//         }
-//         // If the button clicked was an operator
-//         if (buttonClass.contains("operator")) {
-//             operator = event.target.id;
-//             alphaNumber = Number(alphaString);
-//             betaNumber = Number(betaString);
-//             // If only alpha available, unlock beta and enable user input
-//             if (alphaNumber && !betaNumber) {
-//                 alphaToggle = !alphaToggle;
-//                 betaToggle = !betaToggle;
-//             }
-//         }
-//         // If the button clicked was "="
-//         if (buttonClass.contains("equality")) {
-//             alphaNumber = Number(alphaString);
-//             betaNumber = Number(betaString);
-//             // If everything required for calculation is provided, run calc
-//             if (alphaNumber && betaNumber && operator) {
-//                 let numberInputs = [alphaNumber, betaNumber];
-//                 result = window[operator].apply(null, numberInputs);
-//                 console.log(result);
-//                 displayValue.textContent = result;
-//                 alphaString = result.toString();
-//                 betaString = "";
-//                 alphaToggle = false;
-//                 betaToggle = true;
-//             }
-//         }
-//     })
-// })
