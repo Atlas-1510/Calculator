@@ -79,6 +79,14 @@ let operatorDiv = document.getElementById("operator");
 const displayValue = document.getElementById("displayContent");
 buttons.forEach((button) => {
     button.addEventListener('click', (buttonPress) => {
+        let userInput = getInput(buttonPress);
+        setMode(userInput);
+    })
+});
+
+// Debugging Divs
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
         if (alphaToggle) {
             alpha.style.setProperty("background-color", "lightgreen");
         }
@@ -91,9 +99,6 @@ buttons.forEach((button) => {
         if (!betaToggle) {
             beta.style.setProperty("background-color", "white");
         }
-
-        let userInput = getInput(buttonPress);
-        setMode(userInput);
         alphavalue.innerHTML = alphaNumber;
         betavalue.innerHTML = betaNumber;
         operatorDiv.innerHTML = operator;
@@ -106,7 +111,10 @@ buttons.forEach((button) => {
 function setMode(input) {
     let newButton = input[0];
     let value = input[1];
-    console.log(input);
+    // Before evaluating, check if input is a decimal. If decimal already exists in string, do nothing.
+    if (value == "." && displayValue.textContent.includes(".")) {
+        return;
+    }
     // If prior button is a number
     if (priorButton == "number") {
         if (newButton == "number") {
@@ -155,7 +163,7 @@ function setMode(input) {
             equalityEquality();
         }
     }
-    // if NEW button is an input control
+    // If NEW button is an input control
     if (newButton == "inputControl") {
         if (value == "clearButton") {
             alphaNumber = 0;
@@ -163,6 +171,7 @@ function setMode(input) {
             betaNumber = 0;
             betaString = "";
             result = 0;
+            operator = "";
             priorButton = "number";
             alphaToggle = true;
             betaToggle = false;
@@ -193,6 +202,29 @@ function setMode(input) {
             updateDisplayInput();
         }
     }
+}
+
+// getInput takes a mouse click, and returns an array with [buttonType, buttonValue]
+function getInput(event) {
+    let type = "";
+    let value = "";
+    let buttonClass = event.target.classList;
+    if (buttonClass.contains("number")) {
+        let buttonValueString = event.path[0].textContent;
+        type = "number";
+        value = buttonValueString;
+    } else if (buttonClass.contains("operator")) {
+        type = "operator";
+        value = event.target.id;
+    } else if (buttonClass.contains("equality")) {
+        type = "equality";
+        value = event.target.id;
+    } else if (buttonClass.contains("inputControl")) {
+        type = "inputControl";
+        value = event.target.id;
+    }
+    let returnArray = [type, value];
+    return returnArray;
 }
 
 // Updates display with user input
@@ -238,7 +270,10 @@ function numberOperator(input) {
 
 // Equality following number
 function numberEquality() {
-    if (alphaNumber && betaNumber && operator) {
+    if (betaNumber == 0 && operator == "divide") {
+        displayValue.textContent = "Divide by zero error";
+    }
+    else if (alphaNumber && betaNumber && operator) {
         let numberInputs = [alphaNumber, betaNumber];
         result = window[operator].apply(null, numberInputs);
         updateDisplayOutput();
@@ -285,7 +320,7 @@ function equalityNumber(input) {
 
 // Operator following equality
 function equalityOperator(input) {
-    alphaString = result;
+    alphaString = displayValue.textContent;
     alphaNumber = Number(alphaString);
     betaString = "";
     operator = input;
@@ -295,31 +330,11 @@ function equalityOperator(input) {
 
 // Equality following equality
 function equalityEquality() {
-    let numberInputs = [result, betaNumber];
-    result = window[operator].apply(null, numberInputs);
-    console.log(result);
-    updateDisplayOutput();
-}
-
-// getInput takes a mouse click, and returns an array with [buttonType, buttonValue]
-function getInput(event) {
-    let type = "";
-    let value = "";
-    let buttonClass = event.target.classList;
-    if (buttonClass.contains("number")) {
-        let buttonValueString = event.path[0].textContent;
-        type = "number";
-        value = buttonValueString;
-    } else if (buttonClass.contains("operator")) {
-        type = "operator";
-        value = event.target.id;
-    } else if (buttonClass.contains("equality")) {
-        type = "equality";
-        value = event.target.id;
-    } else if (buttonClass.contains("inputControl")) {
-        type = "inputControl";
-        value = event.target.id;
+    if (result && betaNumber) {
+        let numberInputs = [result, betaNumber];
+        result = window[operator].apply(null, numberInputs);
+        console.log(result);
+        updateDisplayOutput();
     }
-    let returnArray = [type, value];
-    return returnArray;
+
 }
