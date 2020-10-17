@@ -10,39 +10,42 @@
 </head>
 
 <body>
-    <div id="calculator">
-        <div id="displayArea">
-            <div id="displayContent">0</div>
-        </div>
-        <div id="clearButton" class="inputControl button">AC</div>
-        <div id="negativeToggle" class="inputControl button">+/-</div>
-        <div id="percentageToggle" class="inputControl button">%</div>
-        <div id="divide" data-key="/" class="orangeSquare operator button key">/</div>
-        <div id="multiply" data-key="*" class="orangeSquare operator button key">*</div>
-        <div id="subtract" data-key="-" class="orangeSquare operator button key">-</div>
-        <div id="add" data-key="+" class="orangeSquare operator button key">+</div>
-        <div id="equality" data-key="Enter" class="orangeSquare equality button key">=</div>
-        <div id="one" data-key="1" class="number numberTile button key">1</div>
-        <div id="two" data-key="2" class="number numberTile button key">2</div>
-        <div id="three" data-key="3" class="number numberTile button key">3</div>
-        <div id="four" data-key="4" class="number numberTile button key">4</div>
-        <div id="five" data-key="5" class="number numberTile button key">5</div>
-        <div id="six" data-key="6" class="number numberTile button key">6</div>
-        <div id="seven" data-key="7" class="number numberTile button key">7</div>
-        <div id="eight" data-key="8" class="number numberTile button key">8</div>
-        <div id="nine" data-key="9" class="number numberTile button key">9</div>
-        <div id="zero" data-key="0" class="number numberTile button key">0</div>
-        <div id="decimal" data-key="." class="number numberTile button key">.</div>
-        <div id="backspace" class="backspace numberTile button">
-            <div id="backspaceIcon" data-key="Backspace" class="backspace material-icons key">&#xe14a;</div>
+    <div id="container">
+        <div id="calculator">
+            <div id="displayArea">
+                <div id="displayContent">0</div>
+            </div>
+            <div id="clearButton" data-key="Escape" class="inputControl button key">AC</div>
+            <div id="negativeToggle" class="inputControl button">+/-</div>
+            <div id="percentageToggle" data-key="%" class="inputControl button key">%</div>
+            <div id="divide" data-key="/" class="orangeSquare operator button key">/</div>
+            <div id="multiply" data-key="*" class="orangeSquare operator button key">*</div>
+            <div id="subtract" data-key="-" class="orangeSquare operator button key">-</div>
+            <div id="add" data-key="+" class="orangeSquare operator button key">+</div>
+            <div id="equality" data-key="Enter" class="orangeSquare equality button key">=</div>
+            <div id="one" data-key="1" class="number numberTile button key">1</div>
+            <div id="two" data-key="2" class="number numberTile button key">2</div>
+            <div id="three" data-key="3" class="number numberTile button key">3</div>
+            <div id="four" data-key="4" class="number numberTile button key">4</div>
+            <div id="five" data-key="5" class="number numberTile button key">5</div>
+            <div id="six" data-key="6" class="number numberTile button key">6</div>
+            <div id="seven" data-key="7" class="number numberTile button key">7</div>
+            <div id="eight" data-key="8" class="number numberTile button key">8</div>
+            <div id="nine" data-key="9" class="number numberTile button key">9</div>
+            <div id="zero" data-key="0" class="number numberTile button key">0</div>
+            <div id="decimal" data-key="." class="number numberTile button key">.</div>
+            <div id="backspace" class="backspace numberTile button">
+                <div id="backspaceIcon" data-key="Backspace" class="backspace material-icons key">&#xe14a;</div>
+            </div>
         </div>
     </div>
-    <div id="alpha">Alpha Toggle</div>
+    <script src="calculator.js"></script>
+    <!-- <div id="alpha">Alpha Toggle</div>
     <div id="beta">Beta Toggle</div>
     <div>Alpha Value: <span id="alphavalue"></span></div>
     <div>Beta Value: <span id="betavalue"></span></div>
-    <div>Operator: <span id="operator"></span></div>
-    <script src="calculator.js"></script>
+    <div>Operator: <span id="operator"></span></div> -->
+
 </body>
 
 </html>

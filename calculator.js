@@ -27,12 +27,25 @@ buttons.forEach(button => button.addEventListener("mouseup", (button) => {
 }));
 
 // Keyboard input
+let isKeyDown = false
+window.addEventListener('keydown', function (e) {
+    if (!isKeyDown) {
+        if (e.key == "Shift") return;
+        const input = document.querySelector(`div[data-key="${e.key}"]`);
+        if (!input) return;
+        input.dispatchEvent(new Event('mousedown'));
+        isKeyDown = true;
+    }
+})
 window.addEventListener('keyup', function (e) {
+    isKeyDown = false;
     if (e.key == "Shift") return;
     const input = document.querySelector(`div[data-key="${e.key}"]`);
     if (!input) return;
     input.click();
+    input.dispatchEvent(new Event('mouseup'));
 })
+
 
 // ***** MATH FUNCTIONS *****
 
@@ -76,14 +89,6 @@ let priorButton = "number";
 // This variable holds the result of a calculation
 let result = 0;
 
-let alpha = document.getElementById("alpha");
-let beta = document.getElementById("beta");
-
-let alphavalue = document.getElementById("alphavalue");
-let betavalue = document.getElementById("betavalue");
-let operatorDiv = document.getElementById("operator");
-
-
 const displayValue = document.getElementById("displayContent");
 buttons.forEach((button) => {
     button.addEventListener('click', (buttonPress) => {
@@ -93,33 +98,55 @@ buttons.forEach((button) => {
 });
 
 // Debugging Divs
-buttons.forEach((button) => {
-    button.addEventListener('click', () => {
-        if (alphaToggle) {
-            alpha.style.setProperty("background-color", "lightgreen");
-        }
-        if (betaToggle) {
-            beta.style.setProperty("background-color", "lightgreen");
-        }
-        if (!alphaToggle) {
-            alpha.style.setProperty("background-color", "white");
-        }
-        if (!betaToggle) {
-            beta.style.setProperty("background-color", "white");
-        }
-        alphavalue.innerHTML = alphaNumber;
-        betavalue.innerHTML = betaNumber;
-        operatorDiv.innerHTML = operator;
-    })
-});
+if (false) {
+    let container = document.getElementById("container");
+    // Alpha Toggle
+    let alphaToggleDiv = document.createElement("div");
+    alphaToggleDiv.textContent = "Alpha Toggle";
+    container.appendChild(alphaToggleDiv);
+    // Beta Toggle
+    let betaToggleDiv = document.createElement("div");
+    betaToggleDiv.textContent = "Beta Toggle";
+    container.appendChild(betaToggleDiv);
+    // Alpha Value
+    let alphaValueDiv = document.createElement("div");
+    alphaValueDiv.textContent = "Alpha Value: ";
+    container.appendChild(alphaValueDiv);
+    // Beta Value
+    let betaValueDiv = document.createElement("div");
+    betaValueDiv.textContent = "Beta Value: ";
+    container.appendChild(betaValueDiv);
+    // Operator
+    let operatorDiv = document.createElement("div");
+    operatorDiv.textContent = "Operator: ";
+    container.appendChild(operatorDiv);
 
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+            if (alphaToggle) {
+                alphaToggleDiv.style.setProperty("background-color", "lightgreen");
+            }
+            if (betaToggle) {
+                betaToggleDiv.style.setProperty("background-color", "lightgreen");
+            }
+            if (!alphaToggle) {
+                alphaToggleDiv.style.setProperty("background-color", "white");
+            }
+            if (!betaToggle) {
+                betaToggleDiv.style.setProperty("background-color", "white");
+            }
+            alphaValueDiv.innerHTML = `Alpha Value: ${alphaNumber}`;
+            betaValueDiv.innerHTML = `Beta Value: ${betaNumber}`;
+            operatorDiv.innerHTML = `Operator: ${operator}`;
+        })
+    })
+};
 
 // Takes user input array from getInput, determines which function to run based on button types
 // i.e if an operator following a number, run numberOperator() 
 function setMode(input) {
     let newButton = input[0];
     let value = input[1];
-    console.log(input);
     if (value == "." && displayValue.textContent.includes(".")) {
         return;
     }

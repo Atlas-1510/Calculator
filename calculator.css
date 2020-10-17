@@ -1,4 +1,16 @@
+body {
+    background-color: #A8DADC;
+}
+
+#container {
+    position: relative;
+}
+
 #calculator {
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, 50%);
     display: inline-grid;
     grid-template-rows: repeat(6, 1fr);
     grid-template-columns: repeat(4, 1fr);
@@ -56,9 +68,9 @@
 #displayContent {
     padding-right: 2%;
     display: flex;
-    border: solid;
+    /* border: solid;
     border-color: black;
-    border-width: 1px;
+    border-width: 1px; */
     justify-content: center;
     align-items: center;
     color: rgb(231, 231, 231);
